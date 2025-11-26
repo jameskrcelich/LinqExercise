@@ -21,18 +21,54 @@ namespace LinqExercise
              */
 
             //TODO: Print the Sum of numbers
+            Console.WriteLine($"Sum of numbers = {numbers.Sum()}");
 
             //TODO: Print the Average of numbers
+            Console.WriteLine($"Average of numbers = {numbers.Average()}");
 
             //TODO: Order numbers in ascending order and print to the console
+            var orderedNumbers = numbers.OrderBy(x => x);
+            foreach (var number in orderedNumbers)
+            {
+                Console.Write(number);
+            }
 
             //TODO: Order numbers in descending order and print to the console
+            Console.WriteLine();
+            orderedNumbers = numbers.OrderByDescending(x => x);
+            foreach (var number in orderedNumbers)
+            {
+                Console.Write(number);
+            }
 
             //TODO: Print to the console only the numbers greater than 6
+            var greaterThanSix = from num in numbers
+                where num > 6
+                select num;
+
+            Console.WriteLine("\nNumbers greater than 6 (Query Syntax):");
+            foreach (var number in greaterThanSix)
+            {
+                Console.Write(number);
+            }
 
             //TODO: Order numbers in any order (ascending or desc) but only print 4 of them **foreach loop only!**
+            IEnumerable<int> firstFourNumbers = numbers.Take(4);
+
+            Console.WriteLine("\nFirst four numbers: ");
+            foreach (int number in firstFourNumbers)
+            {
+                Console.Write(number);
+            }
 
             //TODO: Change the value at index 4 to your age, then print the numbers in descending order
+            numbers[4] = 29;
+            var sortedRemainingElements = numbers.Skip(4).OrderByDescending(n => n);
+            Console.WriteLine("\nNumbers in descending order starting at index 4 (Query Syntax):");
+            foreach (var number in sortedRemainingElements)
+            {
+                Console.Write(number);
+            }
 
             // List of employees ****Do not remove this****
             var employees = CreateEmployees();
