@@ -11,13 +11,10 @@ namespace LinqExercise
 
         static void Main(string[] args)
         {
-            /*
-             * 
-             * Complete every task using Method OR Query syntax. 
+            /* Complete every task using Method OR Query syntax. 
              * You may find that Method syntax is easier to use since it is most like C#
              * Every one of these can be completed using Linq and then printing with a foreach loop.
              * Push to your github when completed!
-             * 
              */
 
             //TODO: Print the Sum of numbers
@@ -74,19 +71,41 @@ namespace LinqExercise
             var employees = CreateEmployees();
 
             //TODO: Print all the employees' FullName properties to the console only if their FirstName starts with a C OR an S and order this in ascending order by FirstName.
+            var filtered = employees.Where(e => e.FirstName.StartsWith('C') || e.FirstName.StartsWith('S'));
+            filtered.OrderBy(e => e.FirstName);
+            Console.WriteLine("First names beginning with 'C' or 'S':");
+            foreach(var employee in filtered)
+            {
+                Console.WriteLine(employee.FirstName);
+            }
 
             //TODO: Print all the employees' FullName and Age who are over the age 26 to the console and order this by Age first and then by FirstName in the same result.
-
+            filtered = employees.Where(e => e.Age > 26).OrderBy(e => e.Age).ThenBy(e => e.FirstName);
+            Console.WriteLine("Employees older than 26");
+            Console.WriteLine("=======================");
+            foreach(var employee in filtered)
+            {
+                Console.WriteLine($"Employee full name: {employee.FullName} Age: {employee.Age} YOE: {employee.YearsOfExperience}");
+            }
+           
             //TODO: Print the Sum of the employees' YearsOfExperience if their YOE is less than or equal to 10 AND Age is greater than 35.
-
+            filtered = employees.Where(e => e.YearsOfExperience <= 10 && e.Age > 35).OrderBy(e => e.Age).ThenBy(e => e.FirstName);
+            
+            var sumYOEexp = filtered.Sum(e => e.YearsOfExperience);
+            Console.WriteLine($"\nFiltered Sum YOE <= 10 and Age > 35 = {sumYOEexp}");
+           
             //TODO: Now print the Average of the employees' YearsOfExperience if their YOE is less than or equal to 10 AND Age is greater than 35.
-
+            var avgYOEexp = filtered.Average(e => e.YearsOfExperience);
+            Console.WriteLine($"Filtered Avg YOE <= 10 and Age > 35 = {Math.Round(avgYOEexp,2)}");
+            
             //TODO: Add an employee to the end of the list without using employees.Add()
-
-
-            Console.WriteLine();
-
-            Console.ReadLine();
+            employees = employees.Append(new Employee("Nuno", "Bettencourt", 58, 16)).ToList();
+            Console.WriteLine("\nEmployees list with our new employee Nuno Bettencourt");
+            Console.WriteLine("=====================================================");
+            foreach (var employee in employees)
+            {
+                Console.WriteLine($"{employee.FullName}, {employee.Age}, {employee.YearsOfExperience}");
+            }
         }
 
         #region CreateEmployeesMethod
